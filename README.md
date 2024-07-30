@@ -86,7 +86,7 @@ The Flight Tracker Application is designed to help users track their flights and
 
 ### Prerequisites
 
-- Node.js
+- React
 - npm or yarn
 - Python
 - Flask
