@@ -14,7 +14,7 @@
     4. FL101
     5. FL202
     6. FL303
- *Note: These are dummy data for testing purposes.*
+*Note: These are dummy data for testing purposes.*
 
 **Git Cloning Notice:**
 - Please note that if the application does not run directly after cloning the repository, below is the deployed live link.
