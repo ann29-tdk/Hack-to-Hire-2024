@@ -1,0 +1,429 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{% static 'assets/favicon/favicon.ico' %}" type="image/x-icon">
+
+  <!-- Map CSS -->
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css">
+
+  <!-- Libs CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/libs.bundle.css' %}">
+
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'assets/css/theme.bundle.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Title -->
+  <title>Landkit</title>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      /* Background color */
+      padding-top: 40px;
+    }
+
+    .login-container {
+      position: relative;
+      background: #fff;
+      width: 900px;
+      /* Container width */
+      margin: auto;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      /* Ensures equal spacing */
+      align-items: center;
+    }
+
+    .social-login {
+      width: 35%;
+      /* Width of the social login section */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* Aligns buttons to the left */
+      margin-left: 30px;
+    }
+
+    .social-button {
+      margin-bottom: 20px;
+      /* Spacing between buttons */
+      width: 100%;
+      /* Full width of the container */
+      height: 50px;
+      /* Button height */
+      border-radius: 6px;
+      /* Rounded corners */
+      color: white;
+      /* Text color */
+      font-size: 16px;
+      /* Font size */
+      padding: 0 20px;
+      /* Padding inside buttons */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-facebook {
+      background-color: #0077b5;
+      width: 80%;
+    }
+
+    .btn-twitter {
+      background-color: #000000;
+      width: 80%;
+    }
+
+    .btn-google {
+      background-color: #fff;
+      width: 80%;
+    }
+    .btn-google span {
+      color: #6a6767;
+    }
+
+    .login-or {
+      position: absolute;
+      top: 50%;
+      /* Vertically center */
+      left: 50%;
+      /* Horizontally center */
+      transform: translate(-50%, -50%);
+      width: 50px;
+      /* Width of OR divider */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .vertical-line {
+      width: 1px;
+      height: 60px;
+      /* Vertical line height */
+      background-color: #ccc;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .vertical-line.top {
+      top: -80px;
+    }
+
+    .vertical-line.bottom {
+      bottom: -80px;
+    }
+
+    .manual-login {
+      width: 45%;
+      /* Width of the manual login form */
+      margin-left: 5%;
+      /* Space from the OR divider */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* Aligns items to the right */
+    }
+
+    .login-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      width: 100%;
+      /* Full width */
+      height: 50px;
+      /* Increased height for better usability */
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      /* Increased padding for better text visibility */
+      margin-bottom: 15px;
+      /* Increased space between form elements */
+      background-color: #eeeeee;
+    }
+
+    .btn-login {
+      width: 100%;
+      height: 50px;
+      /* Button height */
+      background-color: #4FC9DA;
+      color: white;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .text-links {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .text-links a {
+      color: #4FC9DA;
+      text-decoration: none;
+    }
+
+    .fp {
+      color: #000 !important;
+    }
+
+    .text-links a:hover {
+      text-decoration: underline;
+    }
+
+    i {
+      margin-right: 10px;
+      top: 1.1px;
+      position: relative;
+    }
+
+    /* Mobile view */
+    @media (max-width: 1024px) {
+      .login-container {
+        display: none;
+      }
+
+      .mobile-login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        width: 90%;
+        margin: auto;
+      }
+
+      .mobile-login-container .form-group,
+      .mobile-login-container .social-login {
+        width: 58%;
+        margin-bottom: 15px;
+      }
+
+      .mobile-login-container .social-login {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: row;
+        transform: translateX(-10px);
+      }
+
+      .mobile-login-container .btn {
+        width: 100%;
+        height: 50px;
+        border-radius: 6px;
+        color: white;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-btn {
+        width: 65%;
+      }
+
+      .btn-mobile-facebook {
+        background-color: #0077b5;
+      }
+
+      .btn-mobile-twitter {
+        background-color: #000000;
+      }
+
+      .btn-mobile-google {
+        background-color: #fff;
+      }
+
+      .icon-link {
+        background-color: #0077b5;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        height: 40px;
+        /* Increased height */
+        width: 40px;
+        /* Increased width */
+
+      }
+
+      .icon-link i {
+
+        color: white;
+        transform: scale(1.2);
+        height: 17px;
+        margin-left: 8.7px;
+        border-radius: 122%;
+        translate: 0.5px;
+        cursor: pointer;
+
+      }
+
+      .icon-google {
+        background-color: #fff;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        height: 40px;
+        /* Increased height */
+        width: 40px;
+        /* Increased width */
+      }
+
+      .icon-google i {
+
+        color: white;
+        transform: scale(1.2);
+        height: 17px;
+        margin-left: 8.7px;
+        border-radius: 122%;
+        translate: 0.5px;
+        cursor: pointer;
+      }
+
+      .icon-apple {
+        background-color: #000;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        height: 40px;
+        /* Increased height */
+        width: 40px;
+        /* Increased width */
+      }
+
+      .icon-apple i {
+        color: white;
+        transform: scale(1.2);
+        height: 17px;
+        margin-left: 8.7px;
+        border-radius: 122%;
+        translate: 0.5px;
+        cursor: pointer;
+      }
+    }
+
+    /* Desktop view */
+    @media (min-width: 1025px) {
+      .mobile-login-container {
+        display: none;
+      }
+    }
+
+
+  </style>
+
+</head>
+
+<body>
+  <div class="container d-flex justify-content-center align-items-center" style="height: 90vh;">
+    <!-- DESKTOP VIEW -->
+    <div class="login-container">
+      <div class="social-login">
+        <button class="btn social-button btn-facebook"><i class="fa-brands fa-linkedin"></i><span>Continue with
+            LinkedIn</span></button>
+        <button class="btn social-button btn-google" style="border-color: #eee !important;"><img src="../../static/google.png" style="margin-right: 15px;"/><span>Continue with
+            Google</span></button>
+        <button class="btn social-button btn-twitter"><i class="fa-brands fa-apple"></i><span>Continue with
+            Apple</span></button>
+      </div>
+      <div class="login-or">
+        <div class="vertical-line top"></div>
+        OR
+        <div class="vertical-line bottom"></div>
+      </div>
+      <div class="manual-login">
+        <div class="login-title">
+          <Sign><b>Sign in manually</b>
+        </div>
+        <form>
+          <input type="text" class="form-control" placeholder="Username or email">
+          <input type="password" class="form-control" placeholder="Password">
+          <button type="submit" class="btn btn-login">LOGIN</button>
+          <div class="text-links">
+            <a href="#" s>Register now</a> | <a href="#" class="fp">Forgot password?</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MOBILE VIEW -->
+    <div class="container mobile-login-container">
+      <div class="login-title">
+        <Sign><b>Sign in manually</b>
+      </div>
+      <div class="form-group">
+        <input type="text" id="mobileUsername" class="form-control" placeholder="Username or email">
+      </div>
+      <div class="form-group">
+        <input type="password" id="mobilePassword" class="form-control" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary mb-3 mobile-btn" style="background-color: #4FC9DA; width: 58%;">Log In</button>
+      <span style="background-color: #000; width: 60px; height: 0.1px; transform: translate(-60px, 12px);"></span>
+      <div class="text-center mb-3">OR</div>
+      <span style="background-color: #000; width: 60px; height: 0.1px; transform: translate(60px, -28px);"></span>
+      <div class="social-login">
+        <div class="icon-link"><i class="fa-brands fa-linkedin"></i></div>
+        <div class="icon-google"><img src="../../static/google.png" height="30px" width="30px" style="cursor: pointer;"/></i></div>
+        <div class="icon-apple"><i class="fa-brands fa-apple"></i></div>
+      </div>
+      <div class="text-center mt-3">
+        <a href="#" class="text-decoration-none" style = "color: #4FC9DA;">Register</a> | <a href="#" class="text-decoration-none" style="color: #000;">Forgot Password?</a>
+      </div>
+    </div>
+
+  </div>
+  <!-- JAVASCRIPT -->
+  <!-- Map JS -->
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+
+  <!-- Vendor JS -->
+  <script src="{% static 'assets/js/vendor.bundle.js' %}"></script>
+
+  <!-- Theme JS -->
+  <script src="{% static 'assets/js/theme.bundle.js' %}"></script>
+  <script>
+    $('#loginform').on('submit', function (event) {
+      event.preventDefault();
+      var formData = new FormData(this);
+      $.ajax({
+        type: 'POST',
+        headers: {
+          'X-CSRFToken': csrftoken
+        },
+        url: '/account/login/',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>
